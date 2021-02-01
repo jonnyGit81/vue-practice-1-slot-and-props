@@ -1,60 +1,79 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+  <div class="container">
+    <app-pogress
+      :quoteCount="quotes.length"
+      :maxQuotes="maxQuotes"
+    ></app-pogress>
+    <app-new-quote @addQuoteEvent="addQuoteEventListener"></app-new-quote>
+
+    <app-quote-grid
+      @deleteQuoteEvent="deleteQuoteEventListener"
+      :quotes="quotes"
+    ></app-quote-grid>
+
+    <div class="row">
+      <div class="col-md-12 alert alert-info text-center">
+        <label> Click the Quote for delete </label>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import QuoteGrid from "./components/QuoteGrid";
+import NewQuote from "./components/NewQuote";
+import Pogress from "./components/Pogress";
 export default {
-  name: 'app',
-  data () {
+  data: function () {
     return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  }
-}
+      quotes: ["First Quote"],
+      maxQuotes: 10,
+    };
+  },
+  methods: {
+    addQuoteEventListener(data) {
+      if (this.quotes.length < this.maxQuotes) {
+        this.quotes.push(data);
+      } else {
+        alert("quotes full, please delete some quotes");
+      }
+    },
+    deleteQuoteEventListener(data) {
+      this.quotes.splice(data, 1);
+    },
+  },
+  components: {
+    appQuoteGrid: QuoteGrid,
+    appNewQuote: NewQuote,
+    appPogress: Pogress,
+  },
+  beforeCreate() {
+    console.log("[App.vue] beforeCreate");
+  },
+  created() {
+    console.log("[App.vue] created");
+  },
+  beforeMount() {
+    console.log("[App.vue] beforeMount");
+  },
+  mounted() {
+    console.log("[App.vue] mounted");
+  },
+  beforeUpdate() {
+    console.log("[App.vue] beforeUpdate");
+  },
+  updated() {
+    console.log("[App.vue] updated");
+  },
+  beforeDestroy() {
+    console.log("[App.vue] beforeDestroy");
+  },
+  destroyed() {
+    console.log(" [App.vue]destroyed");
+  },
+};
 </script>
 
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>
